@@ -1,0 +1,3 @@
+/Users/ilya/Programming/C++/Projects/OSISP_Course/CMakeFiles/CheckersGame.dir
+/Users/ilya/Programming/C++/Projects/OSISP_Course/CMakeFiles/edit_cache.dir
+/Users/ilya/Programming/C++/Projects/OSISP_Course/CMakeFiles/rebuild_cache.dir

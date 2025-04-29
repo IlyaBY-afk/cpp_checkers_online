@@ -1,0 +1,32 @@
+[
+{
+  "directory": "/Users/ilya/Programming/C++/Projects/OSISP_Course/build",
+  "command": "/usr/bin/clang++ -I/Users/ilya/Programming/C++/Projects/OSISP_Course/include -I/usr/local/include -g -std=gnu++17 -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.4.sdk -o CMakeFiles/CheckersGame.dir/src/Board.cpp.o -c /Users/ilya/Programming/C++/Projects/OSISP_Course/src/Board.cpp",
+  "file": "/Users/ilya/Programming/C++/Projects/OSISP_Course/src/Board.cpp",
+  "output": "CMakeFiles/CheckersGame.dir/src/Board.cpp.o"
+},
+{
+  "directory": "/Users/ilya/Programming/C++/Projects/OSISP_Course/build",
+  "command": "/usr/bin/clang++ -I/Users/ilya/Programming/C++/Projects/OSISP_Course/include -I/usr/local/include -g -std=gnu++17 -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.4.sdk -o CMakeFiles/CheckersGame.dir/src/Game.cpp.o -c /Users/ilya/Programming/C++/Projects/OSISP_Course/src/Game.cpp",
+  "file": "/Users/ilya/Programming/C++/Projects/OSISP_Course/src/Game.cpp",
+  "output": "CMakeFiles/CheckersGame.dir/src/Game.cpp.o"
+},
+{
+  "directory": "/Users/ilya/Programming/C++/Projects/OSISP_Course/build",
+  "command": "/usr/bin/clang++ -I/Users/ilya/Programming/C++/Projects/OSISP_Course/include -I/usr/local/include -g -std=gnu++17 -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.4.sdk -o CMakeFiles/CheckersGame.dir/src/NetworkManager.cpp.o -c /Users/ilya/Programming/C++/Projects/OSISP_Course/src/NetworkManager.cpp",
+  "file": "/Users/ilya/Programming/C++/Projects/OSISP_Course/src/NetworkManager.cpp",
+  "output": "CMakeFiles/CheckersGame.dir/src/NetworkManager.cpp.o"
+},
+{
+  "directory": "/Users/ilya/Programming/C++/Projects/OSISP_Course/build",
+  "command": "/usr/bin/clang++ -I/Users/ilya/Programming/C++/Projects/OSISP_Course/include -I/usr/local/include -g -std=gnu++17 -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.4.sdk -o CMakeFiles/CheckersGame.dir/src/Piece.cpp.o -c /Users/ilya/Programming/C++/Projects/OSISP_Course/src/Piece.cpp",
+  "file": "/Users/ilya/Programming/C++/Projects/OSISP_Course/src/Piece.cpp",
+  "output": "CMakeFiles/CheckersGame.dir/src/Piece.cpp.o"
+},
+{
+  "directory": "/Users/ilya/Programming/C++/Projects/OSISP_Course/build",
+  "command": "/usr/bin/clang++ -I/Users/ilya/Programming/C++/Projects/OSISP_Course/include -I/usr/local/include -g -std=gnu++17 -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.4.sdk -o CMakeFiles/CheckersGame.dir/src/main.cpp.o -c /Users/ilya/Programming/C++/Projects/OSISP_Course/src/main.cpp",
+  "file": "/Users/ilya/Programming/C++/Projects/OSISP_Course/src/main.cpp",
+  "output": "CMakeFiles/CheckersGame.dir/src/main.cpp.o"
+}
+]

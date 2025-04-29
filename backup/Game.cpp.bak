@@ -1,0 +1,486 @@
+#include "../include/Game.hpp"
+#include <iostream>
+#include <variant>
+
+struct MoveResult {
+    bool moved = false;
+    bool captured = false;
+    bool canChain = false;
+};
+
+Game::Game(int windowWidth, int windowHeight)
+    : m_currentPlayer(PieceColor::White) {
+    // Create the game window
+    m_window.create(sf::VideoMode(sf::Vector2u(windowWidth, windowHeight)), "Checkers Game");
+    m_window.setFramerateLimit(60);
+    
+    // Calculate board size to fit the window
+    float boardSize = std::min(windowWidth, windowHeight) * 0.9f;
+    
+    // Create the game board
+    m_board = new Board(boardSize);
+    
+    // Load the font
+    if (!m_font.loadFromFile("fonts/arial.ttf")) {
+        std::cerr << "Error loading font!" << std::endl;
+    }
+    
+    // Initialize status text
+    m_statusText.setFont(m_font);
+    m_statusText.setFillColor(sf::Color::White);
+    m_statusText.setCharacterSize(16);
+    m_statusText.setPosition(10, 10);
+    
+    // Initialize IP input text
+    m_ipInputText.setFont(m_font);
+    m_ipInputText.setFillColor(sf::Color::White);
+    m_ipInputText.setCharacterSize(20);
+}
+
+Game::~Game() {
+    delete m_board;
+}
+
+void Game::run() {
+    while (m_window.isOpen()) {
+        handleEvents();
+        update();
+        render();
+    }
+}
+
+void Game::handleEvents() {
+    while (auto eventOpt = m_window.pollEvent()) {
+        const auto& event = eventOpt.value();
+
+        // Main menu button handling
+        if (m_state == GameState::MainMenu) {
+            if (const auto* mouseEvent = event.getIf<sf::Event::MouseButtonPressed>()) {
+                if (mouseEvent->button == sf::Mouse::Button::Left) {
+                    float w = m_window.getSize().x;
+                    float h = m_window.getSize().y;
+                    sf::FloatRect startBtn(sf::Vector2f(w/2-150, h/2-60), sf::Vector2f(300, 50));
+                    sf::FloatRect exitBtn(sf::Vector2f(w/2-150, h/2+20), sf::Vector2f(300, 50));
+                    sf::Vector2f mousePos(mouseEvent->position.x, mouseEvent->position.y);
+                    if (startBtn.contains(mousePos)) {
+                        m_board->initializePieces();
+                        m_currentPlayer = PieceColor::White;
+                        m_gameOver = false;
+                        m_winnerText = "";
+                        m_state = GameState::Playing;
+                    } else if (exitBtn.contains(mousePos)) {
+                        m_window.close();
+                    }
+                }
+            }
+            return;
+        }
+
+        if (event.is<sf::Event::Closed>()) {
+            m_window.close();
+        } else if (event.is<sf::Event::MouseButtonPressed>()) {
+            if (m_gameOver) return; // Ignore mouse input on game over
+            if (const auto* mouseEvent = event.getIf<sf::Event::MouseButtonPressed>()) {
+                if (mouseEvent->button == sf::Mouse::Button::Left) {
+                    auto moveResult = m_board->handleClick(mouseEvent->position.x, mouseEvent->position.y, m_currentPlayer);
+                    if (moveResult.moved && (!moveResult.captured || !moveResult.canChain)) {
+                        switchPlayer();
+                    }
+                }
+            }
+        } else if (event.is<sf::Event::KeyPressed>()) {
+            if (const auto* keyEvent = event.getIf<sf::Event::KeyPressed>()) {
+                if (m_gameOver) {
+                    if (keyEvent->code == sf::Keyboard::Key::R) {
+                        m_board->initializePieces();
+                        m_currentPlayer = PieceColor::White;
+                        m_gameOver = false;
+                        m_winnerText = "";
+                    } else if (keyEvent->code == sf::Keyboard::Key::Escape) {
+                        m_window.close();
+                    }
+                } else {
+                    if (keyEvent->code == sf::Keyboard::Key::R) {
+                        m_board->initializePieces();
+                        m_currentPlayer = PieceColor::White;
+                    } else if (keyEvent->code == sf::Keyboard::Key::Escape) {
+                        m_window.close();
+                    }
+                }
+            }
+        }
+    }
+}
+
+void Game::update() {
+    // Process network status
+    processNetworkStatus();
+    
+    // Handle network moves if it's not our turn
+    if (m_state == GameState::Playing && 
+        (m_gameMode == GameMode::NetworkHost || m_gameMode == GameMode::NetworkClient) && 
+        !m_isMyTurn) {
+        handleNetworkMove();
+    }
+    
+    // Check for game over
+    if (m_state == GameState::Playing && !m_gameOver && isGameOver()) {
+        m_gameOver = true;
+        if (m_currentPlayer == PieceColor::White) {
+            m_winnerText = "Black player wins!";
+        } else {
+            m_winnerText = "White player wins!";
+        }
+    }
+}
+
+void Game::render() {
+    m_window.clear(sf::Color(50, 50, 50));
+    
+    // Render appropriate screen based on state
+    switch (m_state) {
+        case GameState::MainMenu:
+            renderMainMenu();
+            break;
+        case GameState::MultiplayerMenu:
+            renderMultiplayerMenu();
+            break;
+        case GameState::HostMenu:
+            renderHostMenu();
+            break;
+        case GameState::JoinMenu:
+            renderJoinMenu();
+            break;
+        case GameState::Playing:
+            // Draw the game board
+            m_board->draw(m_window);
+            
+            // Draw turn indicator
+            sf::CircleShape indicator(20);
+            indicator.setPosition(sf::Vector2f(m_window.getSize().x - 50, 20));
+            indicator.setFillColor(m_currentPlayer == PieceColor::White ? sf::Color::White : sf::Color::Black);
+            indicator.setOutlineThickness(2);
+            indicator.setOutlineColor(sf::Color::White);
+            m_window.draw(indicator);
+            
+            // Draw network status for multiplayer games
+            if (m_gameMode != GameMode::LocalGame) {
+                // Draw player turn status
+                sf::Text turnText(m_font, m_isMyTurn ? "Your Turn" : "Opponent's Turn", 20);
+                turnText.setFillColor(sf::Color::White);
+                turnText.setPosition(10, m_window.getSize().y - 30);
+                m_window.draw(turnText);
+                
+                // Draw connection status
+                sf::Text statusText(m_font, m_network.getStatusText(), 20);
+                statusText.setFillColor(sf::Color::White);
+                statusText.setPosition(10, 10);
+                m_window.draw(statusText);
+            }
+            
+            // Display game over message if game is over
+            if (m_gameOver) {
+                sf::Text text(m_font, m_winnerText + "\nPress R to restart or Esc to exit", 36);
+                text.setFillColor(sf::Color::White);
+                text.setOutlineColor(sf::Color::Black);
+                text.setOutlineThickness(2);
+
+                sf::FloatRect textRect = text.getLocalBounds();
+                sf::Vector2f origin(
+                    textRect.position.x + textRect.size.x / 2.0f,
+                    textRect.position.y + textRect.size.y / 2.0f
+                );
+                text.setOrigin(origin);
+                text.setPosition(sf::Vector2f(m_window.getSize().x / 2.0f, m_window.getSize().y / 2.0f));
+                m_window.draw(text);
+            }
+            break;
+    }
+    
+    m_window.display();
+}
+
+void Game::renderMainMenu() {
+    float w = m_window.getSize().x;
+    float h = m_window.getSize().y;
+    
+    // Draw title
+    sf::Text title(m_font, "Checkers Game", 48);
+    title.setFillColor(sf::Color::White);
+    title.setOutlineColor(sf::Color::Black);
+    title.setOutlineThickness(2);
+    sf::FloatRect titleRect = title.getLocalBounds();
+    title.setOrigin(sf::Vector2f(
+        titleRect.position.x + titleRect.size.x / 2.0f,
+        titleRect.position.y + titleRect.size.y / 2.0f
+    ));
+    title.setPosition(sf::Vector2f(w / 2.0f, h / 2.0f - 180));
+    m_window.draw(title);
+
+    // Draw Single Player button
+    auto singleBtn = createButton(w/2-150, h/2-100, 300, 50, sf::Color(100, 200, 100));
+    m_window.draw(singleBtn);
+    auto singleText = createButtonText("Single Player", w/2, h/2-75, 28);
+    m_window.draw(singleText);
+
+    // Draw Multiplayer button
+    auto multiBtn = createButton(w/2-150, h/2-20, 300, 50, sf::Color(100, 150, 200));
+    m_window.draw(multiBtn);
+    auto multiText = createButtonText("Multiplayer", w/2, h/2+5, 28);
+    m_window.draw(multiText);
+
+    // Draw Exit button
+    auto exitBtn = createButton(w/2-150, h/2+60, 300, 50, sf::Color(200, 100, 100));
+    m_window.draw(exitBtn);
+    auto exitText = createButtonText("Exit", w/2, h/2+85, 28);
+    m_window.draw(exitText);
+}
+
+void Game::renderMultiplayerMenu() {
+    float w = m_window.getSize().x;
+    float h = m_window.getSize().y;
+    
+    // Draw title
+    sf::Text title(m_font, "Multiplayer", 48);
+    title.setFillColor(sf::Color::White);
+    title.setOutlineColor(sf::Color::Black);
+    title.setOutlineThickness(2);
+    sf::FloatRect titleRect = title.getLocalBounds();
+    title.setOrigin(sf::Vector2f(
+        titleRect.position.x + titleRect.size.x / 2.0f,
+        titleRect.position.y + titleRect.size.y / 2.0f
+    ));
+    title.setPosition(sf::Vector2f(w / 2.0f, h / 2.0f - 180));
+    m_window.draw(title);
+
+    // Draw Host Game button
+    auto hostBtn = createButton(w/2-150, h/2-100, 300, 50, sf::Color(100, 200, 100));
+    m_window.draw(hostBtn);
+    auto hostText = createButtonText("Host Game", w/2, h/2-75, 28);
+    m_window.draw(hostText);
+
+    // Draw Join Game button
+    auto joinBtn = createButton(w/2-150, h/2-20, 300, 50, sf::Color(100, 150, 200));
+    m_window.draw(joinBtn);
+    auto joinText = createButtonText("Join Game", w/2, h/2+5, 28);
+    m_window.draw(joinText);
+
+    // Draw Back button
+    auto backBtn = createButton(w/2-150, h/2+60, 300, 50, sf::Color(200, 100, 100));
+    m_window.draw(backBtn);
+    auto backText = createButtonText("Back", w/2, h/2+85, 28);
+    m_window.draw(backText);
+}
+
+void Game::renderHostMenu() {
+    float w = m_window.getSize().x;
+    float h = m_window.getSize().y;
+    
+    // Draw title
+    sf::Text title(m_font, "Host Game", 48);
+    title.setFillColor(sf::Color::White);
+    title.setOutlineColor(sf::Color::Black);
+    title.setOutlineThickness(2);
+    sf::FloatRect titleRect = title.getLocalBounds();
+    title.setOrigin(sf::Vector2f(
+        titleRect.position.x + titleRect.size.x / 2.0f,
+        titleRect.position.y + titleRect.size.y / 2.0f
+    ));
+    title.setPosition(sf::Vector2f(w / 2.0f, h / 2.0f - 180));
+    m_window.draw(title);
+    
+    // Show IP Address
+    sf::Text ipText(m_font, "Your IP Address: " + m_network.getLocalIpAddress(), 24);
+    ipText.setFillColor(sf::Color::White);
+    sf::FloatRect ipRect = ipText.getLocalBounds();
+    ipText.setOrigin(sf::Vector2f(
+        ipRect.position.x + ipRect.size.x / 2.0f,
+        ipRect.position.y + ipRect.size.y / 2.0f
+    ));
+    ipText.setPosition(sf::Vector2f(w / 2.0f, h / 2.0f - 100));
+    m_window.draw(ipText);
+    
+    // Show waiting message
+    sf::Text waitText(m_font, "Waiting for opponent to connect...", 24);
+    waitText.setFillColor(sf::Color::White);
+    sf::FloatRect waitRect = waitText.getLocalBounds();
+    waitText.setOrigin(sf::Vector2f(
+        waitRect.position.x + waitRect.size.x / 2.0f,
+        waitRect.position.y + waitRect.size.y / 2.0f
+    ));
+    waitText.setPosition(sf::Vector2f(w / 2.0f, h / 2.0f - 20));
+    m_window.draw(waitText);
+    
+    // Draw Back button
+    auto backBtn = createButton(w/2-150, h/2+100, 300, 50, sf::Color(200, 100, 100));
+    m_window.draw(backBtn);
+    auto backText = createButtonText("Cancel", w/2, h/2+125, 28);
+    m_window.draw(backText);
+}
+
+void Game::renderJoinMenu() {
+    float w = m_window.getSize().x;
+    float h = m_window.getSize().y;
+    
+    // Draw title
+    sf::Text title(m_font, "Join Game", 48);
+    title.setFillColor(sf::Color::White);
+    title.setOutlineColor(sf::Color::Black);
+    title.setOutlineThickness(2);
+    sf::FloatRect titleRect = title.getLocalBounds();
+    title.setOrigin(sf::Vector2f(
+        titleRect.position.x + titleRect.size.x / 2.0f,
+        titleRect.position.y + titleRect.size.y / 2.0f
+    ));
+    title.setPosition(sf::Vector2f(w / 2.0f, h / 2.0f - 180));
+    m_window.draw(title);
+    
+    // Draw IP input box
+    sf::RectangleShape ipBox(sf::Vector2f(300, 50));
+    ipBox.setPosition(sf::Vector2f(w/2-150, h/2-100));
+    ipBox.setFillColor(sf::Color::White);
+    ipBox.setOutlineThickness(2);
+    ipBox.setOutlineColor(sf::Color::Black);
+    m_window.draw(ipBox);
+    
+    // Draw IP input text
+    m_ipInputText.setPosition(sf::Vector2f(w/2-140, h/2-90));
+    m_ipInputText.setFillColor(sf::Color::Black);
+    m_window.draw(m_ipInputText);
+    
+    // Draw placeholder text if empty
+    if (m_ipAddress.empty()) {
+        sf::Text placeholder(m_font, "Enter host IP address", 20);
+        placeholder.setPosition(sf::Vector2f(w/2-140, h/2-90));
+        placeholder.setFillColor(sf::Color(100, 100, 100));
+        m_window.draw(placeholder);
+    }
+    
+    // Draw Connect button
+    auto connectBtn = createButton(w/2-150, h/2+20, 300, 50, sf::Color(100, 200, 100));
+    m_window.draw(connectBtn);
+    auto connectText = createButtonText("Connect", w/2, h/2+45, 28);
+    m_window.draw(connectText);
+    
+    // Draw Back button
+    auto backBtn = createButton(w/2-150, h/2+100, 300, 50, sf::Color(200, 100, 100));
+    m_window.draw(backBtn);
+    auto backText = createButtonText("Back", w/2, h/2+125, 28);
+    m_window.draw(backText);
+    
+    // Draw status text
+    if (m_network.getStatus() == NetworkStatus::Connecting) {
+        sf::Text statusText(m_font, "Connecting...", 24);
+        statusText.setFillColor(sf::Color::Yellow);
+        sf::FloatRect statusRect = statusText.getLocalBounds();
+        statusText.setOrigin(sf::Vector2f(
+            statusRect.position.x + statusRect.size.x / 2.0f,
+            statusRect.position.y + statusRect.size.y / 2.0f
+        ));
+        statusText.setPosition(sf::Vector2f(w / 2.0f, h / 2.0f - 40));
+        m_window.draw(statusText);
+    }
+}
+
+void Game::switchPlayer() {
+    m_currentPlayer = (m_currentPlayer == PieceColor::White) ? PieceColor::Black : PieceColor::White;
+}
+
+bool Game::isGameOver() {
+    // Count pieces for each player
+    int redPieces = 0;
+    int blackPieces = 0;
+    
+    // Check if any player has no pieces left
+    for (int row = 0; row < 8; row++) {
+        for (int col = 0; col < 8; col++) {
+            Piece* piece = m_board->getPieceAt(row, col);
+            if (piece && piece->isAlive()) {
+                if (piece->getColor() == PieceColor::White) {
+                    redPieces++;
+                } else {
+                    blackPieces++;
+                }
+            }
+        }
+    }
+    
+    return (redPieces == 0 || blackPieces == 0);
+}
+
+// Helper functions for UI
+sf::RectangleShape Game::createButton(float x, float y, float width, float height, const sf::Color& color) {
+    sf::RectangleShape button(sf::Vector2f(width, height));
+    button.setPosition(sf::Vector2f(x, y));
+    button.setFillColor(color);
+    button.setOutlineThickness(3);
+    button.setOutlineColor(sf::Color::Black);
+    return button;
+}
+
+sf::Text Game::createButtonText(const std::string& string, float x, float y, unsigned int size) {
+    sf::Text text(m_font, string, size);
+    text.setFillColor(sf::Color::Black);
+    sf::FloatRect textRect = text.getLocalBounds();
+    text.setOrigin(sf::Vector2f(
+        textRect.position.x + textRect.size.x / 2.0f,
+        textRect.position.y + textRect.size.y / 2.0f
+    ));
+    text.setPosition(sf::Vector2f(x, y));
+    return text;
+}
+
+// Game initialization functions
+void Game::startLocalGame() {
+    m_board->initializePieces();
+    m_currentPlayer = PieceColor::White;
+    m_gameOver = false;
+    m_winnerText = "";
+    m_gameMode = GameMode::LocalGame;
+    m_state = GameState::Playing;
+    m_isMyTurn = true;
+}
+
+void Game::startNetworkGame(GameMode mode) {
+    m_board->initializePieces();
+    m_currentPlayer = PieceColor::White;
+    m_gameOver = false;
+    m_winnerText = "";
+    m_gameMode = mode;
+    m_state = GameState::Playing;
+    
+    // In network game, host plays as white, client as black
+    m_isMyTurn = (mode == GameMode::NetworkHost);
+}
+
+// Network-related functions
+bool Game::handleNetworkMove() {
+    if (m_network.hasReceivedMove()) {
+        // Get the move from the network
+        NetworkMove move = m_network.getReceivedMove();
+        
+        // Validate and apply the move
+        if (move.fromRow >= 0 && move.fromCol >= 0 && move.toRow >= 0 && move.toCol >= 0) {
+            Piece* piece = m_board->getPieceAt(move.fromRow, move.fromCol);
+            if (piece && piece->getColor() == m_currentPlayer) {
+                bool validMove = m_board->movePiece(move.fromRow, move.fromCol, move.toRow, move.toCol);
+                if (validMove) {
+                    switchPlayer();
+                    m_isMyTurn = true;
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
+void Game::processNetworkStatus() {
+    // Update network status display
+    if (m_network.getStatus() == NetworkStatus::Disconnected && 
+        (m_gameMode == GameMode::NetworkHost || m_gameMode == GameMode::NetworkClient)) {
+        // Lost connection during game
+        m_state = GameState::MainMenu;
+        m_statusText.setString("Network disconnected. Returning to menu.");
+    }
+} 

@@ -1,0 +1,3 @@
+Y:/Programming/C++/Projects/OSISP_Course/build/CMakeFiles/CheckersGame.dir
+Y:/Programming/C++/Projects/OSISP_Course/build/CMakeFiles/ALL_BUILD.dir
+Y:/Programming/C++/Projects/OSISP_Course/build/CMakeFiles/ZERO_CHECK.dir
