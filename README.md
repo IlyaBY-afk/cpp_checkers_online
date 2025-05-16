@@ -14,21 +14,25 @@ A simple checkers (draughts) game implemented in C++ using SFML graphics library
    - Download SFML 3.0.0 from the [official website](https://www.sfml-dev.org/download.php)
    - Get the right version for your compiler (MinGW or MSVC)
    - Extract to a known location (e.g., `C:\SFML`)
-   - Make sure the extracted folder has this structure:
+   - The folder structure should look like:
      ```
      C:\SFML\
         ├── bin\          # Contains .dll files
         ├── include\      # Contains header files
         ├── lib\          # Contains .lib files and cmake directory
-        │    └── cmake\SFML\
         └── ...
      ```
 
 2. **Configure with CMake**:
    ```
+   # Clean build directory if it exists
+   rmdir /s /q build
+   mkdir build
+   
+   # Configure with correct SFML path
    cmake -S. -Bbuild -DSFML_DIR=C:/SFML/lib/cmake/SFML
    ```
-   Use forward slashes (/) in the path, even on Windows.
+   Use forward slashes (/) in paths, even on Windows.
 
 3. **Build the project**:
    ```
@@ -36,8 +40,12 @@ A simple checkers (draughts) game implemented in C++ using SFML graphics library
    ```
 
 4. **Run the game**:
-   - The necessary SFML DLLs will be automatically copied to your build directory
-   - Run `build\Release\CheckersGame.exe`
+   - Navigate to the build directory and find the executable:
+     ```
+     cd build\Release
+     CheckersGame.exe
+     ```
+   - If you get any errors about missing DLLs, copy all .dll files from `C:\SFML\bin` to your executable's directory
 
 ## Building on macOS
 

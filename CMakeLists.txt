@@ -26,6 +26,10 @@ elseif(WIN32)
     set(SFML_INCLUDE_DIR "${SFML_ROOT}/include")
     set(SFML_LIB_DIR "${SFML_ROOT}/lib")
     
+    # Debug output
+    message(STATUS "SFML_ROOT: ${SFML_ROOT}")
+    message(STATUS "SFML_LIB_DIR: ${SFML_LIB_DIR}")
+    
     # Include directories
     include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include ${SFML_INCLUDE_DIR})
     link_directories(${SFML_LIB_DIR})
@@ -54,19 +58,19 @@ elseif(WIN32)
     # On Windows, link to the appropriate libraries
     if(CMAKE_BUILD_TYPE STREQUAL "Debug")
         target_link_libraries(CheckersGame 
-            ${SFML_LIB_DIR}/sfml-graphics-d.lib
-            ${SFML_LIB_DIR}/sfml-window-d.lib
-            ${SFML_LIB_DIR}/sfml-system-d.lib
-            ${SFML_LIB_DIR}/sfml-audio-d.lib
-            ${SFML_LIB_DIR}/sfml-network-d.lib
+            sfml-graphics-d
+            sfml-window-d
+            sfml-system-d
+            sfml-audio-d
+            sfml-network-d
         )
     else()
         target_link_libraries(CheckersGame 
-            ${SFML_LIB_DIR}/sfml-graphics.lib
-            ${SFML_LIB_DIR}/sfml-window.lib
-            ${SFML_LIB_DIR}/sfml-system.lib
-            ${SFML_LIB_DIR}/sfml-audio.lib
-            ${SFML_LIB_DIR}/sfml-network.lib
+            sfml-graphics
+            sfml-window
+            sfml-system
+            sfml-audio
+            sfml-network
         )
     endif()
     
@@ -80,22 +84,54 @@ elseif(WIN32)
             ${SFML_ROOT}/bin/sfml-network-d-3.dll
         )
     else()
+        # SFML 3.0.0 DLLs might be named without the "-3" suffix or with a version (e.g., 3.0)
+        # Check both patterns
+        file(GLOB GRAPHICS_DLL 
+            "${SFML_ROOT}/bin/sfml-graphics-3.dll"
+            "${SFML_ROOT}/bin/sfml-graphics-3.0.dll"
+            "${SFML_ROOT}/bin/sfml-graphics.dll")
+        file(GLOB WINDOW_DLL 
+            "${SFML_ROOT}/bin/sfml-window-3.dll"
+            "${SFML_ROOT}/bin/sfml-window-3.0.dll"
+            "${SFML_ROOT}/bin/sfml-window.dll")
+        file(GLOB SYSTEM_DLL 
+            "${SFML_ROOT}/bin/sfml-system-3.dll"
+            "${SFML_ROOT}/bin/sfml-system-3.0.dll"
+            "${SFML_ROOT}/bin/sfml-system.dll")
+        file(GLOB AUDIO_DLL 
+            "${SFML_ROOT}/bin/sfml-audio-3.dll"
+            "${SFML_ROOT}/bin/sfml-audio-3.0.dll"
+            "${SFML_ROOT}/bin/sfml-audio.dll")
+        file(GLOB NETWORK_DLL 
+            "${SFML_ROOT}/bin/sfml-network-3.dll"
+            "${SFML_ROOT}/bin/sfml-network-3.0.dll"
+            "${SFML_ROOT}/bin/sfml-network.dll")
+            
+        # Message to debug what was found
+        message(STATUS "Found GRAPHICS_DLL: ${GRAPHICS_DLL}")
+        
         set(SFML_DLLS
-            ${SFML_ROOT}/bin/sfml-graphics-3.dll
-            ${SFML_ROOT}/bin/sfml-window-3.dll
-            ${SFML_ROOT}/bin/sfml-system-3.dll
-            ${SFML_ROOT}/bin/sfml-audio-3.dll
-            ${SFML_ROOT}/bin/sfml-network-3.dll
+            ${GRAPHICS_DLL}
+            ${WINDOW_DLL}
+            ${SYSTEM_DLL}
+            ${AUDIO_DLL}
+            ${NETWORK_DLL}
         )
     endif()
     
+    message(STATUS "SFML DLLs to copy: ${SFML_DLLS}")
+    
     # Copy DLLs to build directory (both for IDE and command line builds)
     foreach(DLL ${SFML_DLLS})
-        add_custom_command(TARGET CheckersGame POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            ${DLL}
-            $<TARGET_FILE_DIR:CheckersGame>
-        )
+        if(EXISTS "${DLL}")
+            add_custom_command(TARGET CheckersGame POST_BUILD
+                COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                ${DLL}
+                $<TARGET_FILE_DIR:CheckersGame>
+            )
+        else()
+            message(WARNING "DLL not found: ${DLL}")
+        endif()
     endforeach()
 else()
     # On other platforms, use the targets defined by find_package
