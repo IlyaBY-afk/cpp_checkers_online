@@ -30,6 +30,16 @@ elseif(WIN32)
     message(STATUS "SFML_ROOT: ${SFML_ROOT}")
     message(STATUS "SFML_LIB_DIR: ${SFML_LIB_DIR}")
     
+    # Check if library files exist
+    if(EXISTS "${SFML_LIB_DIR}/sfml-graphics.lib")
+        message(STATUS "sfml-graphics.lib found at ${SFML_LIB_DIR}/sfml-graphics.lib")
+    else()
+        message(WARNING "sfml-graphics.lib NOT found at ${SFML_LIB_DIR}/sfml-graphics.lib")
+        # List all files in the lib directory for debugging
+        file(GLOB LIB_FILES "${SFML_LIB_DIR}/*.lib")
+        message(STATUS "Available .lib files: ${LIB_FILES}")
+    endif()
+    
     # Include directories
     include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include ${SFML_INCLUDE_DIR})
     link_directories(${SFML_LIB_DIR})
@@ -55,22 +65,29 @@ if(APPLE)
         ${SFML_LIB_DIR}/libsfml-network.dylib
     )
 elseif(WIN32)
-    # On Windows, link to the appropriate libraries
+    # On Windows, link to the appropriate libraries with full paths
     if(CMAKE_BUILD_TYPE STREQUAL "Debug")
         target_link_libraries(CheckersGame 
-            sfml-graphics-d
-            sfml-window-d
-            sfml-system-d
-            sfml-audio-d
-            sfml-network-d
+            ${SFML_LIB_DIR}/sfml-graphics-d.lib
+            ${SFML_LIB_DIR}/sfml-window-d.lib
+            ${SFML_LIB_DIR}/sfml-system-d.lib
+            ${SFML_LIB_DIR}/sfml-audio-d.lib
+            ${SFML_LIB_DIR}/sfml-network-d.lib
         )
     else()
+        # For Visual Studio, we need a different approach since CMAKE_BUILD_TYPE is not used
+        # Visual Studio uses a per-target configuration approach
         target_link_libraries(CheckersGame 
-            sfml-graphics
-            sfml-window
-            sfml-system
-            sfml-audio
-            sfml-network
+            optimized ${SFML_LIB_DIR}/sfml-graphics.lib
+            optimized ${SFML_LIB_DIR}/sfml-window.lib
+            optimized ${SFML_LIB_DIR}/sfml-system.lib
+            optimized ${SFML_LIB_DIR}/sfml-audio.lib
+            optimized ${SFML_LIB_DIR}/sfml-network.lib
+            debug ${SFML_LIB_DIR}/sfml-graphics-d.lib
+            debug ${SFML_LIB_DIR}/sfml-window-d.lib
+            debug ${SFML_LIB_DIR}/sfml-system-d.lib
+            debug ${SFML_LIB_DIR}/sfml-audio-d.lib
+            debug ${SFML_LIB_DIR}/sfml-network-d.lib
         )
     endif()
     

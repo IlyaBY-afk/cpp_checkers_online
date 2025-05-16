@@ -22,6 +22,11 @@ A simple checkers (draughts) game implemented in C++ using SFML graphics library
         ├── lib\          # Contains .lib files and cmake directory
         └── ...
      ```
+   - **IMPORTANT**: Check the `lib` folder and confirm it contains files like:
+     - sfml-graphics.lib
+     - sfml-window.lib
+     - sfml-system.lib
+   - If the library files have different names (like `sfml-graphics-3.lib` or with version numbers), you'll need to either rename them or modify CMakeLists.txt
 
 2. **Configure with CMake**:
    ```
@@ -32,14 +37,25 @@ A simple checkers (draughts) game implemented in C++ using SFML graphics library
    # Configure with correct SFML path
    cmake -S. -Bbuild -DSFML_DIR=C:/SFML/lib/cmake/SFML
    ```
-   Use forward slashes (/) in paths, even on Windows.
+   Use forward slashes (/) in paths, even on Windows. Replace `C:/SFML` with your actual SFML path.
 
-3. **Build the project**:
+3. **Troubleshooting CMake**:
+   If you encounter linking errors, check the CMake output for diagnostics. It will tell you:
+   - The path it's looking for SFML in
+   - Whether specific files were found
+   - Available library files
+   
+   Common issues include:
+   - Wrong path to SFML
+   - Library files with unexpected names (like version suffixes)
+   - Missing SFML components
+
+4. **Build the project**:
    ```
    cmake --build build --config Release
    ```
 
-4. **Run the game**:
+5. **Run the game**:
    - Navigate to the build directory and find the executable:
      ```
      cd build\Release
