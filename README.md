@@ -5,7 +5,7 @@ A simple checkers (draughts) game implemented in C++ using SFML graphics library
 ## Requirements
 
 - C++ compiler with C++17 support
-- SFML 2.5 or later
+- SFML 2.5 or later (macOS: SFML 3.0.0)
 - CMake 3.10 or later
 
 ## Building on Windows
@@ -30,11 +30,32 @@ A simple checkers (draughts) game implemented in C++ using SFML graphics library
    - Make sure all necessary SFML DLLs are in your build directory or in your system PATH
    - Run `build\Release\CheckersGame.exe`
 
-## Building on macOS/Linux
+## Building on macOS
 
 1. **Install SFML**:
-   - macOS: `brew install sfml`
-   - Ubuntu/Debian: `sudo apt-get install libsfml-dev`
+   ```
+   brew install sfml
+   ```
+
+2. **Configure and build**:
+   ```
+   rm -rf build  # Clear any previous build
+   mkdir build
+   cmake -S. -Bbuild
+   cmake --build build
+   ```
+
+3. **Run the game**:
+   ```
+   ./build/CheckersGame
+   ```
+
+## Building on Linux
+
+1. **Install SFML**:
+   ```
+   sudo apt-get install libsfml-dev
+   ```
 
 2. **Configure and build**:
    ```

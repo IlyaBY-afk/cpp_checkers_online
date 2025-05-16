@@ -899,4 +899,31 @@ CMakeFiles/CheckersGame.dir/src/main.cpp.o: \
   /usr/local/include/SFML/System/MemoryInputStream.hpp \
   /usr/local/include/SFML/System/Sleep.hpp \
   /Users/ilya/Programming/C++/Projects/OSISP_Course/src/../include/Board.hpp \
-  /Users/ilya/Programming/C++/Projects/OSISP_Course/src/../include/Piece.hpp
+  /Users/ilya/Programming/C++/Projects/OSISP_Course/src/../include/Piece.hpp \
+  /Users/ilya/Programming/C++/Projects/OSISP_Course/src/../include/NetworkManager.hpp \
+  /usr/local/include/SFML/Network.hpp \
+  /usr/local/include/SFML/Network/Ftp.hpp \
+  /usr/local/include/SFML/Network/Export.hpp \
+  /usr/local/include/SFML/Network/TcpSocket.hpp \
+  /usr/local/include/SFML/Network/Socket.hpp \
+  /usr/local/include/SFML/Network/SocketHandle.hpp \
+  /usr/local/include/SFML/Network/Http.hpp \
+  /usr/local/include/SFML/Network/IpAddress.hpp \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/map \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__tree \
+  /usr/local/include/SFML/Network/Packet.hpp \
+  /usr/local/include/SFML/Network/SocketSelector.hpp \
+  /usr/local/include/SFML/Network/TcpListener.hpp \
+  /usr/local/include/SFML/Network/UdpSocket.hpp \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/thread \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__thread/formatter.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__thread/jthread.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__stop_token/stop_source.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__stop_token/intrusive_shared_ptr.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__stop_token/stop_state.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__stop_token/atomic_unique_lock.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__stop_token/intrusive_list_view.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__stop_token/stop_token.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__thread/thread.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/sstream \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__thread/this_thread.h

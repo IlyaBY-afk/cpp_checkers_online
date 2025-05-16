@@ -897,6 +897,9 @@ CMakeFiles/CheckersGame.dir/src/Game.cpp.o: \
   /usr/local/include/SFML/System/InputStream.hpp \
   /usr/local/include/SFML/System/MemoryInputStream.hpp \
   /usr/local/include/SFML/System/Sleep.hpp \
+  /Users/ilya/Programming/C++/Projects/OSISP_Course/src/../include/Board.hpp \
+  /Users/ilya/Programming/C++/Projects/OSISP_Course/src/../include/Piece.hpp \
+  /Users/ilya/Programming/C++/Projects/OSISP_Course/src/../include/NetworkManager.hpp \
   /usr/local/include/SFML/Network.hpp \
   /usr/local/include/SFML/Network/Ftp.hpp \
   /usr/local/include/SFML/Network/Export.hpp \
@@ -911,9 +914,6 @@ CMakeFiles/CheckersGame.dir/src/Game.cpp.o: \
   /usr/local/include/SFML/Network/SocketSelector.hpp \
   /usr/local/include/SFML/Network/TcpListener.hpp \
   /usr/local/include/SFML/Network/UdpSocket.hpp \
-  /Users/ilya/Programming/C++/Projects/OSISP_Course/src/../include/Board.hpp \
-  /Users/ilya/Programming/C++/Projects/OSISP_Course/src/../include/Piece.hpp \
-  /Users/ilya/Programming/C++/Projects/OSISP_Course/src/../include/NetworkManager.hpp \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/thread \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__thread/formatter.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__thread/jthread.h \

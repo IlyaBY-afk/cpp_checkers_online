@@ -10,6 +10,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/Users/ilya/Programming/C++/Projects/OSISP_Course/src/Board.cpp" "CMakeFiles/CheckersGame.dir/src/Board.cpp.o" "gcc" "CMakeFiles/CheckersGame.dir/src/Board.cpp.o.d"
   "/Users/ilya/Programming/C++/Projects/OSISP_Course/src/Game.cpp" "CMakeFiles/CheckersGame.dir/src/Game.cpp.o" "gcc" "CMakeFiles/CheckersGame.dir/src/Game.cpp.o.d"
+  "/Users/ilya/Programming/C++/Projects/OSISP_Course/src/NetworkManager.cpp" "CMakeFiles/CheckersGame.dir/src/NetworkManager.cpp.o" "gcc" "CMakeFiles/CheckersGame.dir/src/NetworkManager.cpp.o.d"
   "/Users/ilya/Programming/C++/Projects/OSISP_Course/src/Piece.cpp" "CMakeFiles/CheckersGame.dir/src/Piece.cpp.o" "gcc" "CMakeFiles/CheckersGame.dir/src/Piece.cpp.o.d"
   "/Users/ilya/Programming/C++/Projects/OSISP_Course/src/main.cpp" "CMakeFiles/CheckersGame.dir/src/main.cpp.o" "gcc" "CMakeFiles/CheckersGame.dir/src/main.cpp.o.d"
   )

@@ -100,10 +100,24 @@ CMakeFiles/CheckersGame.dir/src/Game.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/CheckersGame.dir/src/Game.cpp.s"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/ilya/Programming/C++/Projects/OSISP_Course/src/Game.cpp -o CMakeFiles/CheckersGame.dir/src/Game.cpp.s
 
+CMakeFiles/CheckersGame.dir/src/NetworkManager.cpp.o: CMakeFiles/CheckersGame.dir/flags.make
+CMakeFiles/CheckersGame.dir/src/NetworkManager.cpp.o: /Users/ilya/Programming/C++/Projects/OSISP_Course/src/NetworkManager.cpp
+CMakeFiles/CheckersGame.dir/src/NetworkManager.cpp.o: CMakeFiles/CheckersGame.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/ilya/Programming/C++/Projects/OSISP_Course/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/CheckersGame.dir/src/NetworkManager.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/CheckersGame.dir/src/NetworkManager.cpp.o -MF CMakeFiles/CheckersGame.dir/src/NetworkManager.cpp.o.d -o CMakeFiles/CheckersGame.dir/src/NetworkManager.cpp.o -c /Users/ilya/Programming/C++/Projects/OSISP_Course/src/NetworkManager.cpp
+
+CMakeFiles/CheckersGame.dir/src/NetworkManager.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/CheckersGame.dir/src/NetworkManager.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/ilya/Programming/C++/Projects/OSISP_Course/src/NetworkManager.cpp > CMakeFiles/CheckersGame.dir/src/NetworkManager.cpp.i
+
+CMakeFiles/CheckersGame.dir/src/NetworkManager.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/CheckersGame.dir/src/NetworkManager.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/ilya/Programming/C++/Projects/OSISP_Course/src/NetworkManager.cpp -o CMakeFiles/CheckersGame.dir/src/NetworkManager.cpp.s
+
 CMakeFiles/CheckersGame.dir/src/Piece.cpp.o: CMakeFiles/CheckersGame.dir/flags.make
 CMakeFiles/CheckersGame.dir/src/Piece.cpp.o: /Users/ilya/Programming/C++/Projects/OSISP_Course/src/Piece.cpp
 CMakeFiles/CheckersGame.dir/src/Piece.cpp.o: CMakeFiles/CheckersGame.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/ilya/Programming/C++/Projects/OSISP_Course/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/CheckersGame.dir/src/Piece.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/ilya/Programming/C++/Projects/OSISP_Course/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/CheckersGame.dir/src/Piece.cpp.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/CheckersGame.dir/src/Piece.cpp.o -MF CMakeFiles/CheckersGame.dir/src/Piece.cpp.o.d -o CMakeFiles/CheckersGame.dir/src/Piece.cpp.o -c /Users/ilya/Programming/C++/Projects/OSISP_Course/src/Piece.cpp
 
 CMakeFiles/CheckersGame.dir/src/Piece.cpp.i: cmake_force
@@ -117,7 +131,7 @@ CMakeFiles/CheckersGame.dir/src/Piece.cpp.s: cmake_force
 CMakeFiles/CheckersGame.dir/src/main.cpp.o: CMakeFiles/CheckersGame.dir/flags.make
 CMakeFiles/CheckersGame.dir/src/main.cpp.o: /Users/ilya/Programming/C++/Projects/OSISP_Course/src/main.cpp
 CMakeFiles/CheckersGame.dir/src/main.cpp.o: CMakeFiles/CheckersGame.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/ilya/Programming/C++/Projects/OSISP_Course/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/CheckersGame.dir/src/main.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/ilya/Programming/C++/Projects/OSISP_Course/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/CheckersGame.dir/src/main.cpp.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/CheckersGame.dir/src/main.cpp.o -MF CMakeFiles/CheckersGame.dir/src/main.cpp.o.d -o CMakeFiles/CheckersGame.dir/src/main.cpp.o -c /Users/ilya/Programming/C++/Projects/OSISP_Course/src/main.cpp
 
 CMakeFiles/CheckersGame.dir/src/main.cpp.i: cmake_force
@@ -132,6 +146,7 @@ CMakeFiles/CheckersGame.dir/src/main.cpp.s: cmake_force
 CheckersGame_OBJECTS = \
 "CMakeFiles/CheckersGame.dir/src/Board.cpp.o" \
 "CMakeFiles/CheckersGame.dir/src/Game.cpp.o" \
+"CMakeFiles/CheckersGame.dir/src/NetworkManager.cpp.o" \
 "CMakeFiles/CheckersGame.dir/src/Piece.cpp.o" \
 "CMakeFiles/CheckersGame.dir/src/main.cpp.o"
 
@@ -140,14 +155,17 @@ CheckersGame_EXTERNAL_OBJECTS =
 
 CheckersGame: CMakeFiles/CheckersGame.dir/src/Board.cpp.o
 CheckersGame: CMakeFiles/CheckersGame.dir/src/Game.cpp.o
+CheckersGame: CMakeFiles/CheckersGame.dir/src/NetworkManager.cpp.o
 CheckersGame: CMakeFiles/CheckersGame.dir/src/Piece.cpp.o
 CheckersGame: CMakeFiles/CheckersGame.dir/src/main.cpp.o
 CheckersGame: CMakeFiles/CheckersGame.dir/build.make
 CheckersGame: /usr/local/lib/libsfml-graphics.dylib
 CheckersGame: /usr/local/lib/libsfml-window.dylib
 CheckersGame: /usr/local/lib/libsfml-system.dylib
+CheckersGame: /usr/local/lib/libsfml-audio.dylib
+CheckersGame: /usr/local/lib/libsfml-network.dylib
 CheckersGame: CMakeFiles/CheckersGame.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/ilya/Programming/C++/Projects/OSISP_Course/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable CheckersGame"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/ilya/Programming/C++/Projects/OSISP_Course/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable CheckersGame"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/CheckersGame.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

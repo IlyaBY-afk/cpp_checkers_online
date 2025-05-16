@@ -85,12 +85,12 @@ clean: CMakeFiles/CheckersGame.dir/clean
 CMakeFiles/CheckersGame.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CheckersGame.dir/build.make CMakeFiles/CheckersGame.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CheckersGame.dir/build.make CMakeFiles/CheckersGame.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/ilya/Programming/C++/Projects/OSISP_Course/build/CMakeFiles --progress-num=1,2,3,4,5 "Built target CheckersGame"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/ilya/Programming/C++/Projects/OSISP_Course/build/CMakeFiles --progress-num=1,2,3,4,5,6 "Built target CheckersGame"
 .PHONY : CMakeFiles/CheckersGame.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/CheckersGame.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/ilya/Programming/C++/Projects/OSISP_Course/build/CMakeFiles 5
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/ilya/Programming/C++/Projects/OSISP_Course/build/CMakeFiles 6
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/CheckersGame.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/ilya/Programming/C++/Projects/OSISP_Course/build/CMakeFiles 0
 .PHONY : CMakeFiles/CheckersGame.dir/rule
@@ -102,7 +102,7 @@ CheckersGame: CMakeFiles/CheckersGame.dir/rule
 # codegen rule for target.
 CMakeFiles/CheckersGame.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CheckersGame.dir/build.make CMakeFiles/CheckersGame.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/ilya/Programming/C++/Projects/OSISP_Course/build/CMakeFiles --progress-num=1,2,3,4,5 "Finished codegen for target CheckersGame"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/ilya/Programming/C++/Projects/OSISP_Course/build/CMakeFiles --progress-num=1,2,3,4,5,6 "Finished codegen for target CheckersGame"
 .PHONY : CMakeFiles/CheckersGame.dir/codegen
 
 # clean rule for target.
